@@ -49,6 +49,19 @@ li article{
 
 }
 
+li{
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* a{
+    text-decoration: none;
+    border: 2px solid red;
+    font-size: 20px;
+    position: absolute;
+    left: 10%;
+} */
+
 
 
 .dude-enter-active, .dude-leave-active{
