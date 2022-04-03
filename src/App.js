@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
 import './App.css';
 
 class App extends React.Component {
@@ -6,23 +9,12 @@ class App extends React.Component {
   constructor(props){
       super(props)
 
+      this.input = React.createRef()
+
       this.state = {
-          newWho: "Marcela the Elf",
-          newWhat: "Best player on the world",
-          characters: [
-              {
-                  id:1,
-                  who:"Finn the Human",
-                  what:"A silly kid who wants to become a hero",
-                  cool: 69
-              },
-              {
-                  id:2,
-                  who:"Jake the Dog",
-                  what:"Finn's best friend who wants to kill me",
-                  cool:9
-              }
-          ]
+          newWho: "",
+          newWhat: "",
+          characters: []
       }
   }
 
@@ -83,13 +75,17 @@ removeDude = dude => {
         
         //   alert(this.state.dude)
           
-        
+        this.resetForm()
     }
 
       }
       
 
-      
+    componentDidMount = () => {
+        fetch('https://myjson.dit.upm.es/api/bins/7vu3')
+    .then(res => res.json())
+    .then(json => this.setState({ characters: json }))
+    }  
 
     //   this.setState({
     //       characters: [...this.state.characters, newDude]
@@ -99,8 +95,9 @@ removeDude = dude => {
 
   listOfDudes = () => {
       return this.state.characters.map(dude => (
+          <CSSTransition key={dude.id} timeout={200} classNames="dude">
        <li className="dude" key={dude.id}>
-           <a className='ctrl' onClick={() =>{
+           <a href='#' className='ctrl' onClick={() =>{
                this.removeDude(dude)
            }}>x</a>
 
@@ -123,6 +120,7 @@ removeDude = dude => {
       )} */}
       
       </li>
+      </CSSTransition>
       ))
   }
 
@@ -132,16 +130,28 @@ removeDude = dude => {
 //       })
 //   }
 
+//   reset form
+  resetForm = () =>{
+      this.setState({
+          newWho: "",
+          newWhat: ""
+      })
+      this.input.current.focus()
+  }
+
   render(){
 
 
       return(
           <div>
-              <ul>{this.listOfDudes()}</ul>
+              <TransitionGroup component="ul">
+              {this.listOfDudes()}
+              </TransitionGroup>
+              
 
 
               <form className='add-new' onKeyPress={this.handleSubmit}>
-                  <input type="text" value={this.state.newWho} onChange={this.handleWho}></input>
+                  <input autoFocus type="text" ref={this.input} value={this.state.newWho} onChange={this.handleWho}></input>
                   <input type="text" value={this.state.newWhat} onChange={this.handleWhat}></input>
 
               </form>

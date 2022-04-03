@@ -49,10 +49,10 @@ li article{
 
 }
 
-li{
+/* li{
     text-decoration: none;
     display: inline-block;
-}
+} */
 
 /* a{
     text-decoration: none;
@@ -64,12 +64,26 @@ li{
 
 
 
-.dude-enter-active, .dude-leave-active{
+.dude-enter-active, .dude-exit-active{
     transition: all .60s;
 }
 
-.dude-enter, .dude-leave-to{
+.dude-enter {
     opacity: 0;
     transform: scale(.75);
 }
 
+.dude-enter-active{
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.dude-exit{
+    opacity: 1;
+
+}
+
+.dude-exit-active{
+    opacity: 0;
+    transform: scale(0.75);
+}
